@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>使用Pelican + Github Pages建立个人网站</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">Building Blocks <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/gen-pelicna-site.html" rel="bookmark"
+                   title="Permalink to 使用Pelican + Github Pages建立个人网站">使用Pelican + Github Pages建立个人网站</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2016-06-06T11:23:00+08:00">
+                周一 06 六月 2016
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/buglong.html"> Buglong</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>很多人有平日里写些东西的习惯，不管是生活点滴、技术文档还是平日积累的一些心得体会，很多随意而发的文字散落在博客、论坛或者各个专业网站里。老在想与其七零八落，不如自己建个网站，申请个域名自己用。但是一想到要维护网站和虚拟主机，还得自己排版文字就犯怵，哪那么多时间整这个。直到前些日子开始一直用markdown记东西，用Git管理日常文件才发现了个好方法，好多人都在用，就是用静态网站生成工具配合Github Pages来建站。写文字用markdown格式，写完了自动生成一下，然后往Git上一推就完事了，性价比很高。</p>
+<p>不过像这种工具类的方法总是需要投入一点时间学习下配置方法的，配置完了，使用就比较简便了。下面记录下各种配置方法以备查。</p>
+<h2>使用快速导引</h2>
+<p>所谓三两下搞定。短的反馈路线总是一个很大的优势，迭代快，有点错误能两下就重来也不错。</p>
+<h3>安装</h3>
+<p>在windows环境下安装需要Python3和pip，可选make。</p>
+<div class="highlight"><pre><span></span>pip install pelican markdown
+</pre></div>
+
+
+<h3>初始化网站</h3>
+<p>选择一个目录作为网站目录，例如website/username.github.io，在目录中运行pelican-quickstart命令来初始化网站。命令会问一些关于站点的配置问题，配置以后都可以在<code>pelicanconf.py</code>中改。</p>
+<div class="highlight"><pre><span></span>cd website/username.github.io
+pelican-quickstart
+</pre></div>
+
+
+<p>完成后目录结构如下：</p>
+<div class="highlight"><pre><span></span>blog/
+├── content              # 存放输入的源文件
+│   └── (pages)          # 存放手工创建的静态页面
+├── output               # 生成的输出文件
+├── develop_server.sh    
+├── Makefile             # 方便管理博客的Makefile
+├── pelicanconf.py       # 配置文件
+└── publishconf.py       # 发布配置文件
+</pre></div>
+
+
+<h3>增加文章</h3>
+<p>编写*.md文件放到content目录</p>
+<div class="highlight"><pre><span></span>make html
+</pre></div>
+
+
+<p>文件可以增加元数据结构，可在快速文本中增加（meta）：</p>
+<div class="highlight"><pre><span></span><span class="x">Title:      </span><span class="err">#</span><span class="x"> 题目</span>
+<span class="x">Date:       </span><span class="err">#</span><span class="x"> 建立日期</span>
+<span class="x">Modified:   </span><span class="err">#</span><span class="x"> 修改日期,日期可通过快速文本</span><span class="err">#</span><span class="p">$</span><span class="nv">year</span><span class="x">-</span><span class="p">$</span><span class="nv">month_mm</span><span class="x">-</span><span class="p">$</span><span class="nv">date_dd</span><span class="x"> </span><span class="p">$</span><span class="nv">hour_hh</span><span class="x">:</span><span class="p">$</span><span class="nv">second_ss输入</span><span class="x"></span>
+<span class="x">Category:   </span><span class="err">#</span><span class="x"> 分类名</span>
+<span class="x">Tags:       </span><span class="err">#</span><span class="x"> 标签名</span>
+<span class="x">Slug:       </span><span class="err">#</span><span class="x"> 文章在url中显示的名称</span>
+<span class="x">Authors:    </span><span class="err">#</span><span class="x"> 作者名字</span>
+<span class="x">Summary:    </span><span class="err">#</span><span class="x"> 简述</span>
+</pre></div>
+
+
+<p>生成后的文件在output目录下。这时就可以预览一下网站了，进入output目录。</p>
+<div class="highlight"><pre><span></span>python -m pelican.server
+</pre></div>
+
+
+<p>然后在浏览器里输入http://localhost:8000就可以预览网站了。</p>
+<h2>利用Github pages伺服网站</h2>
+<p>生成的静态网站可以发布在任何支持http协议的服务器上，这里选择使用Github pages作为伺服器。</p>
+<p>Github pages允许用户自定义项目首页，用来替代默认的源码列表。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。于是，我们就可以将生成的静态网页部署在Github Pages上。免费。</p>
+<ol>
+<li>在Github.com建立一个仓库，名字必须为<em>username</em>.github.io，其中<em>username</em>是Github上的用户名。这个就是网站的远端服务地址了，需要把生成的网站推上去，具体可用工具或客户端实现，此处不赘述。</li>
+<li>然后访问<code>http://*username*.github.io</code> ，就能看到快速安装导引生成的网站了。跟本地预览一样。</li>
+</ol>
+<h3>绑定域名</h3>
+<p>自己建站总想弄个个性化的域名，那就去申请一个吧，一年几十块，申请完了添加CNAME项(www.<em>domain</em>.com或者\@.<em>domain</em>.com)，把申请的域名解析到<em>username</em>.github.io。
+再在Github仓库里新建一个CNAME文件，里面写上www.<em>domain</em>.com。这样就能用自己的域名访问网站了。</p>
+<h2>配置Pelican</h2>
+<p>利用自动化工具省事就跟磨刀不误砍材工的道理一样，所以前期得花功夫配置一下。
+详细的配置还是需要啃<a href="" title="http://docs.getpelican.com/en/3.6.3/index.html">文档</a>的。</p>
+<h3>Theme主题</h3>
+<p>使用内置主题和<a href="" title="https://github.com/getpelican/pelican-themes">下载主题</a>是比较方便的配置主题方式。
+在<code>pelicanconf.py</code>中添加：</p>
+<div class="highlight"><pre><span></span>THEME = &#39;./themes/gum&#39;
+</pre></div>
+
+
+<p>可以是相对路径或是绝对路径，需要确保指向正确。</p>
+<h2>维护</h2>
+<h3>git仓库管理</h3>
+<p>平日维护站点需要两个本地git库和一个Github远程库，本地的其中一个是保存原始档，就是初始化网站的那个目录，另外一个是和Github远程库同步的本地活动库。两个库管理起来感觉比较顺手。</p>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <h3>Comments</h3>
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "gen-pelicna-site.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://buglong.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<h4>Pages</h4>
+
+ <ul>
+  </ul>
+
+<h4>Categories</h4>
+<ul class="blank">
+		<li><a href="/category/ji-zhu-ji-lei.html">技术积累</a></li>
+		<li><a href="/category/misc.html">misc</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul class="blank">
+</ul>
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul class="blank">
+    <li><a href="#">You can add links in your config file</a></li>
+    <li><a href="#">Another social link</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'buglong';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
